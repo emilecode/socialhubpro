@@ -1,5 +1,7 @@
-.vscode/
+.vs/
+
 bin/
 obj/
+
 appsettings.json
 compose.yaml

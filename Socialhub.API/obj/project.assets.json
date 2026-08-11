@@ -2762,11 +2762,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/emile/socialhubpro/Socialhub.API/Socialhub.API.csproj",
+      "projectUniqueName": "/home/emile/Projects/socialhubpro/Socialhub.API/Socialhub.API.csproj",
       "projectName": "Socialhub.API",
-      "projectPath": "/home/emile/socialhubpro/Socialhub.API/Socialhub.API.csproj",
+      "projectPath": "/home/emile/Projects/socialhubpro/Socialhub.API/Socialhub.API.csproj",
       "packagesPath": "/home/emile/.nuget/packages/",
-      "outputPath": "/home/emile/socialhubpro/Socialhub.API/obj/",
+      "outputPath": "/home/emile/Projects/socialhubpro/Socialhub.API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/emile/.nuget/NuGet/NuGet.Config"
