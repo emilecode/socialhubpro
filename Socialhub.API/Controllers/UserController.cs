@@ -9,7 +9,7 @@ namespace Socialhub.API.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _service;
-    
+
     public UserController(IUserService service)
     {
         _service = service;
@@ -21,8 +21,17 @@ public class UserController : ControllerBase
         if(newuser is null)
         {
             return BadRequest("User data connot be empty.");
-        } 
+        }
         return CreatedAtAction(nameof(Create),new UserResponseDto(newuser.Id,newuser.Username,newuser.Email));
     }
-    
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var users = _service.GetAllAsync();
+        return Ok(users);
+    }
+
+
+
 }

@@ -44,6 +44,11 @@ public class UserService : IUserService
             newUser.Email
         );
     }
+    public async Task<List<UserResponseDto>> GetAllAsync()
+    {
+        return await _context.Users.Select(u => new UserResponseDto(u.Id,u.Username,u.Email)).ToListAsync();
+
+    }
 
 
 
