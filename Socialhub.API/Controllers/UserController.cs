@@ -28,7 +28,7 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var users = _service.GetAllAsync();
+        var users = await _service.GetAllAsync();
         return Ok(users);
     }
 
