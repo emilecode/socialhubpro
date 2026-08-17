@@ -18,15 +18,12 @@ public class UserService : IUserService
 
     public async Task<UserResponseDto?> CreateAsync(UserRequestDto dto)
     {
-        if (dto is null)
-        {
-            return null;
-        }
+        if (dto is null) return null;
+        
+        string normalizedEmail = dto.Email.ToLower();
         bool emailExists = await _context.Users.AnyAsync(u => u.Email == dto.Email);
-        if (emailExists)
-        {
-            return null;
-        }
+        if (emailExists) return null;
+        
         string secureHash = BCryptNet.HashPassword(dto.Password);
         var newUser = new User
         {
@@ -40,14 +37,24 @@ public class UserService : IUserService
         return new UserResponseDto
         (
             newUser.Id,
-         newUser.Username,
+            newUser.Username,
             newUser.Email
         );
     }
     public async Task<List<UserResponseDto>> GetAllAsync()
     {
-        return await _context.Users.Select(u => new UserResponseDto(u.Id,u.Username,u.Email)).ToListAsync();
+        return await _context.Users.AsNoTracking().Select(u => new UserResponseDto(u.Id,u.Username,u.Email)).ToListAsync();
 
+    }
+    public async Task<UserResponseDto?> DeleteAsync(Guid id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        
+        if(user is null) return null;
+        
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        return new UserResponseDto(user.Id,user.Username,user.Email);
     }
 
 

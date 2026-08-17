@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Socialhub.API.Entities;
+
 using Socialhub.API.DTOs;
 using Socialhub.API.Interfaces;
 namespace Socialhub.API.Controllers;
@@ -15,21 +15,31 @@ public class UserController : ControllerBase
         _service = service;
     }
     [HttpPost]
-    public async Task<ActionResult<UserResponseDto>>Create(UserRequestDto user)
+    public async Task<ActionResult<UserResponseDto?>>Create(UserRequestDto user)
     {
-        var newuser = await _service.CreateAsync(user);
-        if(newuser is null)
+        var newUser = await _service.CreateAsync(user);
+        if(newUser == null)
         {
-            return BadRequest("User data connot be empty.");
+            return BadRequest("Invalid info.");
         }
-        return CreatedAtAction(nameof(Create),new UserResponseDto(newuser.Id,newuser.Username,newuser.Email));
+        return CreatedAtAction(nameof(GetAll),new {id = newUser.Id},newUser);
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<List<UserResponseDto>>> GetAll()
     {
         var users = await _service.GetAllAsync();
         return Ok(users);
+    }  
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<UserResponseDto?>> Delete(Guid id)
+    {
+        var deletedUser = await _service.DeleteAsync(id);
+        if(deletedUser is null)
+        {
+            return NotFound($"No User With Id:({id})");
+        }
+        return Ok(deletedUser);
     }
 
 
